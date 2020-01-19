@@ -1,0 +1,79 @@
+.q-gutter-y-md > * {
+  margin-top: 0;
+}
+.q-input {
+  height: 54px;
+  padding-top: 24px;
+}
+.q-card__section {
+  padding: 0 0 10px 0;
+}
+.q-card{
+  background: none;
+}
+.header {
+  /* height: 185px; */
+  /* background: url("../../statics/map.png") 0px 0px no-repeat; */
+  /* background-size: cover; */
+}
+.header-logo {
+  width: 70px;
+  height: 70px;
+  margin-top: 10px;
+}
+.text-black{
+  color:black;
+}
+.header-title {
+  font-size: 2.3rem;
+  font-weight: 400;
+  margin-top: 0;
+}
+.cnt {
+  width: 300px;
+  box-shadow: none;
+}
+.bg-base {
+  /* background:white; */
+}
+.bg-base1 {
+  background:white;
+  height: 227px;
+  position: absolute;
+  filter: blur(15px);
+}
+
+.bg-base-gingo_biloba {
+  background: url("../../statics/map.png") repeat;
+  /* background-color: #f0c755 transparent: 5%; */
+}
+.opa{
+  opacity: 0.9;
+}
+.enter-btn {
+  font-size: 4.1em;
+  margin-right: 10px;
+  margin-bottom: 7px;
+  cursor: pointer;
+}
+.enter-btn {
+  animation: animation-enter-btn 0.8s linear infinite alternate;
+}
+@keyframes animation-enter-btn {
+  0% {
+    color: White;
+  }
+  100% {
+    color: #cbe1dc;
+  }
+}
+.action-btn {
+  width: 130px;
+}
+.bb3px {
+  border: 3px solid black;
+}
+
+.pt-10 {
+  padding-top: 10px;
+}
