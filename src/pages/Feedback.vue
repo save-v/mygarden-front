@@ -2,14 +2,14 @@
   <q-page padding>
 
     <div class="q-pa-md">
-      <h5 class="text-h5 text-black mt-0">Feedback</h5>
+      <h5 class="text-h5 text-black mt-0">Зворотній зв'язок</h5>
       <q-form
         @submit="onSubmit"
         class="q-gutter-md"
       >
         <q-input
           filled
-          label="Your email *"
+          label="Електронна пошта *"
           color="black"
           v-model="email"
           clearable
@@ -26,19 +26,19 @@
         <q-input
           filled
           type="textarea"
-          label="Message *"
+          label="Повідомлення *"
           color="black"
           v-model="message"
           clearable
           no-error-icon
-          :rules="[ val => val && val.length > 16 || 'Message must be at least 16 characters']"
+          :rules="[ val => val && val.length > 16 || 'Повідомлення має містити щонайменше 16 символів']"
         >
           <template v-slot:prepend>
             <q-icon name="mail_outline" />
           </template>
         </q-input>
 
-        <q-btn label="Submit" type="submit" color="primary" />
+        <q-btn label="Відправити" type="submit" color="black" rounded />
       </q-form>
     </div>
 
@@ -47,9 +47,15 @@
 
 <script>
 import { vEmail } from '../utils/validations'
+import helpers from '../utils/helpers'
+import auth from '../utils/add'
 
 export default {
   name: 'Feedback',
+  mixins: [
+    helpers,
+    auth
+  ],
   data () {
     return {
       email: '',
@@ -58,15 +64,30 @@ export default {
   },
   methods: {
     vEmail,
-    onSubmit () {
-      alert('onSubmit')
+    async onSubmit () {
+      this.showLoading()
+      await this.sendMessage({ email: this.email, message: this.message })
+      this.hideLoading()
+      this.notify('Ваше повідомлення відправлено', 'green')
+    },
+    setFields () {
+      this.email = this.$store.state.user.email
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
+  },
+  watch: {
+    user (val) {
+      if (val) {
+        this.setFields()
+      }
     }
   },
   async mounted () {
-    const email = this.$store.state.user.email
-    if (email) {
-      this.email = email
-    }
+    this.setFields()
   }
 }
 </script>

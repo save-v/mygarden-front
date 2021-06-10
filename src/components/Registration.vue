@@ -5,10 +5,7 @@
         <div class="column">
           <q-form @submit="onRegistration">
             <div class="header text-center">
-
-              <!-- <img class="header-logo" src="../statics/logo_black.png" /> -->
-              <h5 class="text-h5 text-black q-my-md header-title">MyGarden</h5>
-              <q-icon name="visibility" class="enter-btn" @click="onHome" />
+              <h5 class="text-h5 text-black q-my-md header-title" @click="onHome">Мій сад</h5>
             </div>
             <div class="row">
               <q-card class="q-pa-sm bg-base cnt">
@@ -18,7 +15,7 @@
                     <div class="q-gutter-y-md column">
 
                       <q-input
-                        placeholder="Email"
+                        placeholder="Електронна пошта"
                         color="black"
                         v-model="email"
                         clearable
@@ -34,7 +31,7 @@
                       </q-input>
 
                       <q-input
-                        placeholder="Name"
+                        placeholder="Ім'я"
                         color="black"
                         v-model="name"
                         clearable
@@ -49,8 +46,23 @@
                       </q-input>
 
                       <q-input
+                        placeholder="Телефон"
+                        color="black"
+                        v-model="phone"
+                        clearable
+                        no-error-icon
+                        :rules="[
+                          vRequired
+                        ]"
+                      >
+                        <template v-slot:prepend>
+                          <q-icon name="phone" />
+                        </template>
+                      </q-input>
+
+                      <q-input
                         :type="isPass ? 'password' : 'text'"
-                        placeholder="Password"
+                        placeholder="Пароль"
                         color="black"
                         v-model="password"
                         clearable
@@ -74,7 +86,7 @@
 
                       <q-input
                         :type="isRePass ? 'password' : 'text'"
-                        placeholder="RePassword"
+                        placeholder="Повторний пароль"
                         color="black"
                         v-model="repassword"
                         clearable
@@ -82,7 +94,7 @@
                         :rules="[
                           vRequired,
                           vPassLength,
-                          val => val === password || 'Passwords do not match'
+                          val => val === password || 'Паролі не співпадають'
                         ]"
                       >
                         <template v-slot:append>
@@ -98,7 +110,7 @@
                       </q-input>
 
                       <span class="text-center q-pa-none pt-10">
-                      I accept the <a href="javascript:void(0)" class="text-black" @click="showTerms">Terms of Service</a>
+                      Я приймаю <a href="javascript:void(0)" class="text-black" @click="showTerms">Умови надання послуг</a>
                       <q-toggle
                         v-model="accept"
                         color="primary"
@@ -117,12 +129,12 @@
                     color="black"
                     text-color="white"
                     class="action-btn"
-                    label="Registration"
+                    label="Реєстрація"
                   />
                 </q-card-section>
 
                 <q-card-section class="text-center q-pa-none">
-                  <a href="#/login" class="text-black">Login</a>
+                  <a href="#/login" class="text-black">Увійти</a>
                 </q-card-section>
 
               </q-card>
@@ -154,6 +166,7 @@ export default {
     return {
       email: '',
       name: '',
+      phone: '',
       password: '',
       repassword: '',
       isPass: true,
@@ -181,7 +194,7 @@ export default {
     },
     async onRegistration () {
       if (!this.accept) {
-        this.notify('You have not accepted the license terms!')
+        this.notify('Ви не прийняли умови ліцензії!')
       } else {
         this.showLoading()
         await this.registration()

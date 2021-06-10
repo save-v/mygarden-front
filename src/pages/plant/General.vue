@@ -3,14 +3,21 @@
     <q-form @submit="onSubmit()">
 
       <q-toolbar>
-        <q-toolbar-title><template v-if="$q.screen.gt.xs">Plant: </template>{{data.name}}</q-toolbar-title>
+        <q-toolbar-title>
+          <template v-if="data.name">
+            <template v-if="$q.screen.gt.xs">Рослина: </template>{{data.name}}
+          </template>
+          <template v-else>
+            <template v-if="$q.screen.gt.xs">Нова рослина </template>
+          </template>
+        </q-toolbar-title>
         <template v-if="!editMode">
-          <q-btn label="Edit" color="black" rounded @click="editMode=true" v-if="$store.state.user" />
+          <q-btn label="Редагувати" color="black" rounded @click="editMode=true" v-if="$store.state.user" />
         </template>
         <template v-if="editMode">
-          <q-btn label="Save" color="positive" rounded type="submit" />
-          <q-btn label="Cancel" color="secondary" rounded @click="editMode=false; onReset()" class="q-ml-sm" v-if="!isNew" />
-          <q-btn label="Reset" color="secondary" rounded @click="onReset()" class="q-ml-sm" v-if="isNew" />
+          <q-btn label="Зберегти" color="positive" rounded type="submit" />
+          <q-btn label="Скасувати" color="secondary" rounded @click="editMode=false; onReset()" class="q-ml-sm" v-if="!isNew" />
+          <q-btn label="Скинути" color="secondary" rounded @click="onReset()" class="q-ml-sm" v-if="isNew" />
         </template>
       </q-toolbar>
 
@@ -23,7 +30,7 @@
             <q-select
               filled
               v-model="data.category_id"
-              label="Category"
+              label="Категорія"
               :options="categoryList"
               option-value="id"
               option-label="name"
@@ -40,8 +47,8 @@
             <q-input
               filled
               v-model="data.name"
-              label="Name *"
-              :rules="[ val => val && val.length >= 8 || 'must be at least 8 characters' ]"
+              label="Назва *"
+              :rules="[ val => val && val.length >= 8 || 'має містити принаймні 8 символів' ]"
               :disable="!editMode"
             />
           </div>
@@ -51,7 +58,7 @@
               filled
               type="textarea"
               v-model="data.notes"
-              label="Notes"
+              label="Примітки"
               :disable="!editMode"
             />
           </div>
@@ -99,6 +106,7 @@ export default {
       }
 
       this.hideLoading()
+      this.notify('Збережено', 'green')
     },
     onReset () {
       this.data = JSON.parse(JSON.stringify(this.initial_data))

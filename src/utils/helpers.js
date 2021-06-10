@@ -57,6 +57,22 @@ export default {
       this.$q.loading.hide()
       // this.timer = void 0
       // }, 1000)
+    },
+    tr () {
+      this.$q.lang.table.noData = 'Дані відсутні'
+      this.$q.lang.table.noResults = 'Відповідних записів не знайдено'
+      this.$q.lang.table.loading = 'Завантаження...'
+      this.$q.lang.table.selectedRecords = function (rows) {
+        return rows === 1
+          ? '1 запис вибрано.'
+          : (rows === 0 ? 'Немає' : rows) + ' записів вибрано.'
+      }
+      this.$q.lang.table.recordsPerPage = 'Записів на сторінці:'
+      this.$q.lang.table.allRows = 'Всі'
+      this.$q.lang.table.pagination = function (start, end, total) {
+        return start + '-' + end + ' з ' + total
+      }
+      this.$q.lang.table.columns = 'Стовпці'
     }
   }
 }

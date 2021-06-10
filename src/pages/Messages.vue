@@ -2,7 +2,7 @@
   <q-page>
       <div class="q-pa-md">
 
-        <h5 class="text-h5 text-black q-my-md mt-0">Мої рослини</h5>
+        <h5 class="text-h5 text-black q-my-md mt-0">Повідомлення від користувачів</h5>
 
         <q-table
           flat
@@ -10,12 +10,8 @@
           :columns="columns"
           row-key="id"
           :filter="filter"
-          @row-click="onView"
         >
           <template v-slot:top>
-            <q-btn icon="add" label="Додати рослину" color="black" rounded @click="onAdd" />
-
-            <q-space />
             <q-input borderless dense filled debounce="300" color="primary" clearable v-model="filter" style="width: 220px">
               <template v-slot:prepend>
                 <q-icon name="search" />
@@ -30,10 +26,10 @@
 </template>
 
 <script>
-import helpers from '../../utils/helpers'
+import helpers from '../utils/helpers'
 
 export default {
-  name: 'Plants',
+  name: 'Messages',
   mixins: [
     helpers
   ],
@@ -43,51 +39,38 @@ export default {
       filter: '',
       columns: [
         {
-          label: 'Категорія',
-          align: 'left',
-          field: row => row.category_name,
-          sortable: true
-        },
-        {
-          label: 'Назва',
-          align: 'left',
-          field: row => row.name,
-          sortable: true
-        },
-        {
-          label: 'Примітки',
-          align: 'left',
-          field: row => row.notes,
-          sortable: true
-        },
-        {
-          label: 'Створено',
+          label: 'Дата',
           align: 'left',
           field: row => row.created_at,
           sortable: true
         },
         {
-          label: 'Оновлено',
+          label: 'Користувач',
           align: 'left',
-          field: row => row.updated_at,
+          field: row => (row.User) ? row.User.name : '-',
+          sortable: true
+        },
+        {
+          label: 'Повідомлення',
+          align: 'left',
+          field: row => row.message,
+          sortable: true
+        },
+        {
+          label: 'Контактні дані',
+          align: 'left',
+          // field: row => row.email,
+          field: row => row.email + ((row.User && row.email !== row.User.email) ? ', ' + row.User.email : '') + ((row.User) ? ', ' + row.User.phone : ''),
           sortable: true
         }
       ]
-    }
-  },
-  methods: {
-    onView (evt, row) {
-      this.$router.push('/plant/general/' + row.id)
-    },
-    onAdd () {
-      this.$router.push('/plant/general/new')
     }
   },
   async mounted () {
     this.tr()
     this.showLoading()
     try {
-      const response = await this.$axios.get('/plants')
+      const response = await this.$axios.get('/messages')
       this.data = response.data.map(item => {
         item.category_name = (item.Category) ? item.Category.name : ''
         item.created_at = new Date(item.created_at).toLocaleDateString(undefined, { hour: 'numeric', minute: 'numeric' })

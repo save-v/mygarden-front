@@ -7,16 +7,20 @@
           <img class="header-logo" src="../statics/logo_white.png" />
         </a>
         <q-toolbar-title>
-          MyGarden
+          Мій сад
         </q-toolbar-title>
         <div>
           <template v-if="!$store.state.user">
-            <q-btn rounded color="black" text-color="white" label="Sign In" :to="{ name: 'Login'}" class="ml-10"></q-btn>
-            <q-btn rounded color="black" text-color="white" label="Registration" :to="{ name: 'Registration'}" class="ml-10"></q-btn>
+            <q-btn rounded color="black" text-color="white" label="Увійти" :to="{ name: 'Login'}" class="ml-10"></q-btn>
+            <q-btn rounded color="black" text-color="white" label="Реєстрація" :to="{ name: 'Registration'}" class="ml-10"></q-btn>
           </template>
           <template v-else>
-            <q-btn rounded color="black" text-color="white" :label="$store.state.user.email" icon="account_circle" :to="{ name: 'Profile'}" class="ml-10 ttn"></q-btn>
-            <q-btn rounded color="black" text-color="white" :label="($q.screen.gt.xs)?'LogOut':''" icon="exit_to_app" v-on:click="onLogout" class="ml-10"></q-btn>
+            <q-btn rounded color="black" text-color="white" :label="$store.state.user.email" icon="account_circle" :to="{ name: 'Profile'}" class="ml-10 ttn">
+              <q-badge color="red" floating transparent>
+                {{roles_title.join('/')}}
+              </q-badge>
+            </q-btn>
+            <q-btn rounded color="black" text-color="white" :label="($q.screen.gt.xs)?'Вийти':''" icon="exit_to_app" v-on:click="onLogout" class="ml-10"></q-btn>
           </template>
         </div>
       </q-toolbar>
@@ -27,10 +31,11 @@
         class="bg-base text-black shadow-2"
       >
         <!-- <q-route-tab name="search" icon="search" label="Global Search" :to="{ name: 'Search'}" /> -->
-        <q-route-tab name="search" icon="search" label="Global Search" :to="{ name: 'General1', params: { id: 'all' } }" />
-        <q-route-tab v-if="$store.state.user" name="list" icon="list" label="My Plants" :to="{ name: 'Plants'}" />
-        <q-route-tab name="feedback" icon="mail" label="Feedback" :to="{ name: 'Feedback'}" />
-        <q-route-tab name="about" icon="help_outline" label="About" :to="{ name: 'About'}" />
+        <q-route-tab name="search" icon="search" label="Глобальний пошук" :to="{ name: 'General1', params: { id: 'all' } }" />
+        <q-route-tab v-if="$store.state.user" name="list" icon="list" label="Мої рослини" :to="{ name: 'Plants'}" />
+        <q-route-tab v-if="!roles.includes('admin')" name="feedback" icon="mail" label="Зворотній зв'язок" :to="{ name: 'Feedback'}" />
+        <q-route-tab v-if="roles.includes('admin')" name="messages" icon="mail" label="Повідомлення" :to="{ name: 'Messages'}" />
+        <q-route-tab name="about" icon="help_outline" label="Про проект" :to="{ name: 'About'}" />
       </q-tabs>
 
     </q-header>
@@ -64,6 +69,14 @@ export default {
       this.hideLoading()
     }
   },
+  computed: {
+    roles () {
+      return (this.$store.state.user) ? this.$store.state.user.roles.map(t => t.name) : []
+    },
+    roles_title () {
+      return (this.$store.state.user) ? this.$store.state.user.roles.map(t => t.title) : []
+    }
+  },
   async mounted () {
     this.showLoading()
     await this.checkUser()
@@ -79,7 +92,9 @@ export default {
   margin-top: 0px;
 }
 .bg-base {
-  background: #f0c755;
+  /* background: #12ff6f; */
+  background: #4caf50;
+  /* background: url("../statics/map.png") repeat-x; */
 }
 .ml-10 {
   margin-left: 10px;

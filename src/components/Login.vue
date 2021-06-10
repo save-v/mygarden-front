@@ -5,10 +5,7 @@
         <div class="column">
           <q-form @submit="onLogin">
             <div class="header text-center">
-
-              <!-- <img class="header-logo" src="../statics/logo_black.png" /> -->
-              <h5 class="text-h5 text-black q-my-md header-title">MyGarden</h5>
-              <q-icon name="visibility" class="enter-btn" @click="onHome" />
+              <h5 class="text-h5 text-black q-my-md header-title" @click="onHome">Мій сад</h5>
             </div>
             <div class="row">
               <q-card class="q-pa-sm bg-base cnt">
@@ -18,7 +15,7 @@
                     <div class="q-gutter-y-md column">
 
                       <q-input
-                        placeholder="Email"
+                        placeholder="Електронна пошта"
                         color="black"
                         v-model="email"
                         clearable
@@ -35,7 +32,7 @@
 
                       <q-input
                         :type="isPass ? 'password' : 'text'"
-                        placeholder="Password"
+                        placeholder="Пароль"
                         color="black"
                         v-model="password"
                         clearable
@@ -67,12 +64,12 @@
                     color="black"
                     text-color="white"
                     class="action-btn"
-                    label="Login"
+                    label="Увійти"
                   />
                 </q-card-section>
 
                 <q-card-section class="text-center q-pa-none">
-                  <a href="#/registration" class="text-black">Registration</a>
+                  <a href="#/registration" class="text-black">Реєстрація</a>
                 </q-card-section>
 
               </q-card>

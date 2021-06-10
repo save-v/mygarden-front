@@ -35,53 +35,58 @@
 </template>
 
 <script>
+import helpers from '../../utils/helpers'
+
 export default {
   name: 'General1',
+  mixins: [
+    helpers
+  ],
   data () {
     return {
       data: [],
       filter: '',
       columns: [
         {
-          name: 'category_id',
-          label: 'Category',
+          label: 'Категорія',
           align: 'left',
           field: row => row.Category.name,
           sortable: true
         },
         {
-          name: 'name',
-          label: 'Name',
+          label: 'Назва',
           align: 'left',
           field: row => row.name,
           sortable: true
         },
         {
-          name: 'notes',
-          label: 'Notes',
+          label: 'Примітки',
           align: 'left',
           field: row => row.notes,
           sortable: true
         },
         {
-          name: 'created_at',
-          label: 'Created',
+          label: 'Створено',
           align: 'left',
           field: row => row.created_at,
           sortable: true
         },
         {
-          name: 'updated_at',
-          label: 'Updated',
+          label: 'Оновлено',
           align: 'left',
           field: row => row.updated_at,
           sortable: true
         },
         {
-          name: 'user_id',
-          label: 'User',
+          label: 'Користувач',
           align: 'left',
           field: row => row.User.name,
+          sortable: true
+        },
+        {
+          label: 'Телефон',
+          align: 'left',
+          field: row => row.User.phone,
           sortable: true
         }
       ]
@@ -91,7 +96,11 @@ export default {
     async getData () {
       try {
         const response = await this.$axios.get('/catplants/' + this.$route.params.id)
-        this.data = response.data
+        this.data = response.data.map(item => {
+          item.created_at = new Date(item.created_at).toLocaleDateString(undefined, { hour: 'numeric', minute: 'numeric' })
+          item.updated_at = new Date(item.updated_at).toLocaleDateString(undefined, { hour: 'numeric', minute: 'numeric' })
+          return item
+        })
       } catch (error) {
         console.log(error.response.data.message)
       }
@@ -106,6 +115,7 @@ export default {
     }
   },
   async mounted () {
+    this.tr()
     this.getData()
   }
 }

@@ -2,7 +2,7 @@
   "name": "mygarden",
   "version": "0.0.1",
   "description": "mygarden",
-  "productName": "mygarden",
+  "productName": "Мій сад",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "vitaliy.savenets@gmail.com",

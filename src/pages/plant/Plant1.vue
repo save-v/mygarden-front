@@ -8,7 +8,7 @@
 
             <q-item v-ripple clickable :to="{ name: 'General1', params: { id: 'all' } }">
               <q-item-section>
-                <q-item-label>all</q-item-label>
+                <q-item-label>Всі категорії</q-item-label>
               </q-item-section>
             </q-item>
 
