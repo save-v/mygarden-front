@@ -6,13 +6,13 @@
         <q-drawer show-if-above behavior="desktop" side="left" bordered :width="250">
           <q-list>
 
-            <q-item v-ripple clickable :to="{ name: 'General1', params: { id: 'all' } }">
+            <q-item v-ripple clickable :to="{ name: 'SearchList', params: { id: 'all' } }">
               <q-item-section>
                 <q-item-label>Всі категорії</q-item-label>
               </q-item-section>
             </q-item>
 
-            <q-item v-ripple clickable v-for="item in categoryList" v-bind:key="item.id" :to="{ name: 'General1', params: { id: item.id } }">
+            <q-item v-ripple clickable v-for="item in categoryList" v-bind:key="item.id" :to="{ name: 'SearchList', params: { id: item.id } }">
               <q-item-section>
                 <q-item-label>{{ item.name }}</q-item-label>
               </q-item-section>
@@ -23,8 +23,6 @@
 
         <q-page style="padding:20px">
           <router-view />
-          <!-- TODO..! -->
-          <!-- {{categoryList}} -->
         </q-page>
 
       </div>
@@ -36,7 +34,7 @@
 import helpers from '../../utils/helpers'
 
 export default {
-  name: 'Search',
+  name: 'SearchMenu',
   mixins: [
     helpers
   ],
@@ -56,6 +54,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-</style>

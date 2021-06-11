@@ -1,7 +1,6 @@
 <template>
   <q-page>
     <q-form @submit="onSubmit()">
-
       <q-toolbar>
         <q-toolbar-title>
           <template v-if="data.name">
@@ -27,7 +26,15 @@
         <div class="row">
 
           <div class="col-xs-12 col-sm-6 col-md-4">
+            <q-input
+              v-show="newCat"
+              filled
+              v-model="newCatName"
+              label="Категория *"
+              :rules="newCat ? [ val => val && val.length >= 3 || 'має містити принаймні 3 символа' ] : []"
+            />
             <q-select
+              v-show="!newCat"
               filled
               v-model="data.category_id"
               label="Категорія"
@@ -40,8 +47,10 @@
               transition-show="flip-up"
               transition-hide="flip-down"
               :disable="!editMode"
+              :rules="!newCat ? [ val => val || '' ] : []"
             />
           </div>
+          <q-btn v-show="editMode" round color="secondary" :icon="!newCat?'add':'list'" style="margin-top:15px;" @click="addNewCat" />
 
           <div class="col-xs-12 col-sm-12 col-md-12">
             <q-input
@@ -74,7 +83,7 @@
 import helpers from '../../utils/helpers'
 
 export default {
-  name: 'General',
+  name: 'MyInfo',
   mixins: [
     helpers
   ],
@@ -86,7 +95,10 @@ export default {
       editMode: false,
       data: {},
       initial_data: {},
-      categoryList: []
+      categoryList: [],
+
+      newCatName: String,
+      newCat: false
     }
   },
   methods: {
@@ -95,12 +107,13 @@ export default {
       this.showLoading()
 
       try {
-        const result = await this.$axios.post('/plantSave/', this.data)
+        const result = await this.$axios.post('/plantSave/', { ...this.data, newCatName: this.newCatName })
         if (this.isNew && result.data.id > 0) {
-          this.$router.push('/plant/general/' + result.data.id)
+          this.$router.push('/plant/info/' + result.data.id)
         } else {
           this.getData()
         }
+        this.newCat = false
       } catch (error) {
         console.log(error.response.data.message)
       }
@@ -130,6 +143,10 @@ export default {
       }
 
       this.hideLoading()
+    },
+    addNewCat () {
+      this.newCat = !this.newCat
+      this.newCatName = ''
     }
   },
   computed: {

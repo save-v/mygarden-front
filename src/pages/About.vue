@@ -3,6 +3,10 @@
 
     <div class="q-pa-md">
       <h5 class="text-h5 text-black q-my-md mt-0">Про проект <b>"Мій сад"</b></h5>
+      <img
+        src="~assets/tree.jpg"
+        style="width:100vw;max-width:500px;float:right;"
+      >
       <p>
         Проект націлений, в першу чергу, на садівників аматорів, які захоплені вирощуванням рослин.
       </p>

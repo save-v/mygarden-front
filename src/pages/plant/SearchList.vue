@@ -1,9 +1,6 @@
 <template>
   <q-page>
     <div v-if="$route.params.id">
-      <!-- <div v-for="item in data" v-bind:key="item.id" style="border-bottom: 2px solid black">
-        {{item}}
-      </div> -->
       <q-table
           flat
           :data="data"
@@ -11,10 +8,9 @@
           row-key="id"
           :filter="filter"
           @row-click="onView"
+          class="test"
         >
           <template v-slot:top>
-            <!-- <q-btn icon="add" label="Add plant" color="black" rounded @click="onAdd" /> -->
-
             <q-space />
             <q-input borderless dense filled debounce="300" color="primary" clearable v-model="filter" style="width: 220px">
               <template v-slot:prepend>
@@ -24,12 +20,6 @@
           </template>
 
       </q-table>
-     <!-- <div v-if="!data.length">
-        Not Found!
-      </div>  -->
-    </div>
-    <div v-else>
-      News...
     </div>
   </q-page>
 </template>
@@ -38,7 +28,7 @@
 import helpers from '../../utils/helpers'
 
 export default {
-  name: 'General1',
+  name: 'SearchList',
   mixins: [
     helpers
   ],
@@ -66,27 +56,9 @@ export default {
           sortable: true
         },
         {
-          label: 'Створено',
-          align: 'left',
-          field: row => row.created_at,
-          sortable: true
-        },
-        {
-          label: 'Оновлено',
-          align: 'left',
-          field: row => row.updated_at,
-          sortable: true
-        },
-        {
           label: 'Користувач',
           align: 'left',
           field: row => row.User.name,
-          sortable: true
-        },
-        {
-          label: 'Телефон',
-          align: 'left',
-          field: row => row.User.phone,
           sortable: true
         }
       ]
@@ -96,17 +68,13 @@ export default {
     async getData () {
       try {
         const response = await this.$axios.get('/catplants/' + this.$route.params.id)
-        this.data = response.data.map(item => {
-          item.created_at = new Date(item.created_at).toLocaleDateString(undefined, { hour: 'numeric', minute: 'numeric' })
-          item.updated_at = new Date(item.updated_at).toLocaleDateString(undefined, { hour: 'numeric', minute: 'numeric' })
-          return item
-        })
+        this.data = response.data
       } catch (error) {
         console.log(error.response.data.message)
       }
     },
     onView (evt, row) {
-      this.$router.push('/plant/general/' + row.id)
+      this.$router.push('/cat/info/' + row.id)
     }
   },
   watch: {

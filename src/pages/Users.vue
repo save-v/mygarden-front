@@ -2,7 +2,7 @@
   <q-page>
       <div class="q-pa-md">
 
-        <h5 class="text-h5 text-black q-my-md mt-0">Мої рослини</h5>
+        <h5 class="text-h5 text-black q-my-md mt-0">Усі користувачі</h5>
 
         <q-table
           flat
@@ -10,12 +10,8 @@
           :columns="columns"
           row-key="id"
           :filter="filter"
-          @row-click="onView"
         >
           <template v-slot:top>
-            <q-btn icon="add" label="Додати рослину" color="black" rounded @click="onAdd" />
-
-            <q-space />
             <q-input borderless dense filled debounce="300" color="primary" clearable v-model="filter" style="width: 220px">
               <template v-slot:prepend>
                 <q-icon name="search" />
@@ -30,10 +26,10 @@
 </template>
 
 <script>
-import helpers from '../../utils/helpers'
+import helpers from '../utils/helpers'
 
 export default {
-  name: 'Plants',
+  name: 'Users',
   mixins: [
     helpers
   ],
@@ -43,21 +39,21 @@ export default {
       filter: '',
       columns: [
         {
-          label: 'Категорія',
+          label: 'Електронна пошта',
           align: 'left',
-          field: row => row.category_name,
+          field: row => row.email,
           sortable: true
         },
         {
-          label: 'Назва',
+          label: 'Ім\'я',
           align: 'left',
           field: row => row.name,
           sortable: true
         },
         {
-          label: 'Примітки',
+          label: 'Телефон',
           align: 'left',
-          field: row => row.notes,
+          field: row => row.phone,
           sortable: true
         },
         {
@@ -75,19 +71,11 @@ export default {
       ]
     }
   },
-  methods: {
-    onView (evt, row) {
-      this.$router.push('/plant/general/' + row.id)
-    },
-    onAdd () {
-      this.$router.push('/plant/general/new')
-    }
-  },
   async mounted () {
     this.tr()
     this.showLoading()
     try {
-      const response = await this.$axios.get('/plants')
+      const response = await this.$axios.get('/users')
       this.data = response.data.map(item => {
         item.category_name = (item.Category) ? item.Category.name : ''
         item.created_at = new Date(item.created_at).toLocaleDateString(undefined, { hour: 'numeric', minute: 'numeric' })

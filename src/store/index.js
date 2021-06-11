@@ -42,10 +42,10 @@ export default function (/* { ssrContext } */) {
           return Vue.prototype.$axios.get('/dictionary', {})
             .then(response => {
               commit('set', { name: 'categoryList', value: response.data.categoryList })
-              this.dictionaryLoaded = true
+              commit('set', { name: 'dictionaryLoaded', value: true })
             }, error => {
               if (error.status === 400) {
-                this.dictionaryLoaded = false
+                commit('set', { name: 'dictionaryLoaded', value: false })
               }
             })
         } else {

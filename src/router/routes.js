@@ -3,28 +3,23 @@
 const routes = [
   { path: '/', component: () => import('layouts/AppLayout.vue'),
     children: [
+      { path: '/', component: () => import('pages/About.vue'), name: 'About' },
+      { path: '/users', component: () => import('pages/Users.vue'), name: 'Users' },
       { path: '/feedback', component: () => import('pages/Feedback.vue'), name: 'Feedback' },
       { path: '/messages', component: () => import('pages/Messages.vue'), name: 'Messages' },
-      { path: '/about', component: () => import('pages/About.vue'), name: 'About' },
       { path: '/profile', component: () => import('components/Profile.vue'), name: 'Profile' },
-      { path: '/plant', component: () => import('pages/plant/Plants.vue'), name: 'Plants' },
-      { path: '/plant', component: () => import('pages/plant/Plant.vue'),
+      { path: '/plant', component: () => import('pages/plant/MyList.vue'), name: 'MyList' },
+      { path: '/plant', component: () => import('pages/plant/MyMenu.vue'),
         children: [
-          { path: '/plant/general/:id', component: () => import('pages/plant/General.vue'), name: 'General', props: true } // ,
-          // { path: '/plant/test/:id', component: () => import('pages/plant/General.vue'), name: 'Test', props: true }
+          { path: '/plant/info/:id', component: () => import('pages/plant/MyInfo.vue'), name: 'MyInfo', props: true }
         ]
       },
-      { path: '/cat', component: () => import('pages/plant/Plant1.vue'),
+      { path: '/cat', component: () => import('pages/plant/SearchMenu.vue'),
         children: [
-          { path: '/cat/:id', component: () => import('pages/plant/General1.vue'), name: 'General1', props: true }
+          { path: '/cat/:id', component: () => import('pages/plant/SearchList.vue'), name: 'SearchList', props: true },
+          { path: '/cat/info/:id', component: () => import('pages/plant/SearchInfo.vue'), name: 'SearchInfo', props: true }
         ]
-      },
-      { path: '/', component: () => import('pages/plant/Plant1.vue'),
-        children: [
-          { path: '/', component: () => import('pages/plant/General1.vue'), name: 'General1', props: true }
-        ]
-      } // ,
-      // { path: '/', component: () => import('pages/plant/General1.vue'), name: 'General0' }
+      }
     ]
   },
   { path: '/login', component: () => import('components/Login.vue'), name: 'Login' },

@@ -30,10 +30,10 @@
         inline-label
         class="bg-base text-black shadow-2"
       >
-        <!-- <q-route-tab name="search" icon="search" label="Global Search" :to="{ name: 'Search'}" /> -->
-        <q-route-tab name="search" icon="search" label="Глобальний пошук" :to="{ name: 'General1', params: { id: 'all' } }" />
-        <q-route-tab v-if="$store.state.user" name="list" icon="list" label="Мої рослини" :to="{ name: 'Plants'}" />
+        <q-route-tab name="search" icon="search" label="Пошук" :to="{ name: 'SearchList', params: { id: 'all' } }" />
+        <q-route-tab v-if="$store.state.user && !roles.includes('admin')" name="list" icon="list" label="Мої рослини" :to="{ name: 'MyList'}" />
         <q-route-tab v-if="!roles.includes('admin')" name="feedback" icon="mail" label="Зворотній зв'язок" :to="{ name: 'Feedback'}" />
+        <q-route-tab v-if="roles.includes('admin')" name="users" icon="account_circle" label="Користувачі" :to="{ name: 'Users'}" />
         <q-route-tab v-if="roles.includes('admin')" name="messages" icon="mail" label="Повідомлення" :to="{ name: 'Messages'}" />
         <q-route-tab name="about" icon="help_outline" label="Про проект" :to="{ name: 'About'}" />
       </q-tabs>
@@ -101,5 +101,11 @@ export default {
 }
 .ttn {
   text-transform: none;
+}
+</style>
+
+<style>
+.q-table tbody td{
+  white-space: pre-line;
 }
 </style>
