@@ -57,7 +57,7 @@
               filled
               v-model="data.name"
               label="Назва *"
-              :rules="[ val => val && val.length >= 8 || 'має містити принаймні 8 символів' ]"
+              :rules="[ val => val && val.length >= 3 || 'має містити принаймні 3 символи' ]"
               :disable="!editMode"
             />
           </div>
